@@ -61,10 +61,10 @@
     }
 
     function sanitize(str) {
-        var cleanStr = str.replaceAll("<img", "");
-        var cleanStr = cleanStr.replaceAll("</img>", "");
-        var cleanStr = cleanStr.replaceAll("<div", "");
-        var cleanStr = cleanStr.replaceAll("</div>", "");
+        var cleanStr = str.replace(/<img.*?>/g, "");
+        var cleanStr = cleanStr.replace(/<body.*?>/g, "");
+        var cleanStr = cleanStr.replace(/<iframe.*?>/g, "");
+        var cleanStr = cleanStr.replace(/<button.*?>/g, "");
         console.log("san : " + cleanStr);
         return cleanStr;
     }
