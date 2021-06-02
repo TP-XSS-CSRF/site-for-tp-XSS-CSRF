@@ -1,0 +1,78 @@
+@font-face {
+    font-family: MagicOwl;
+    font-weight: bold;
+    src: url("../MagicOwl.otf") format("opentype");
+}
+
+.article{
+	background-color: #FFBF66;
+	border-radius: 10px;
+	padding: 20px 20px 20px 20px;
+	margin-top: 20px;
+	height: 15vh;
+	font-size: 20px;
+	box-shadow: -8px 9px 17px -1px rgba(0,0,0,0.63);
+	-webkit-box-shadow: -8px 9px 17px -1px rgba(0,0,0,0.63);
+	-moz-box-shadow: -8px 9px 17px -1px rgba(0,0,0,0.63);
+}
+.container{
+	width: 50%;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+body{
+	background-color: #F0BE86;
+	color: #00353F;
+	font-family: MagicOwl;
+}
+
+h1 {
+    text-align:center;
+    margin: 50px 0 50px 0 ;
+    font-size: 78px;
+}
+input, textarea{
+	width: 30%;
+	height: 7vh;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	font-size: 30px;
+}
+
+button{
+	margin-top: 20px;
+	padding: 15px;
+	border-radius: 10px;
+	background-color: green;
+	border-style: none;
+	box-shadow: 2px 2px 2px;
+	font-size: 40px;
+	font-family: MagicOwl;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	animation: ease-in;
+	transition: 1s;
+}
+
+button:hover{
+	transition: 1s;
+	transform: scale(1.2);
+}
+
+li{
+	list-style-type: none; 
+	font-size: 50px;
+	text-align: center;
+	padding: 10px 10px 10px 10px;
+}
+ul{
+	padding: 10px 10px 10px 10px;
+}
+a{
+	text-decoration: none;
+	color: inherit;
+}
