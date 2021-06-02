@@ -20,9 +20,8 @@ app.use(session({
   saveUninitialized: true,
   resave: true,
   cookie: {
-    sameSite: 'none',
-  }
-}));
+    sameSite: false
+  },}));
 
 
 const dropTableArticle = "DROP TABLE IF EXISTS article;";

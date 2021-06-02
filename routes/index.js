@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/menu', function(req, res, next) {
+  console.log(req.session)
     if(req.session.sessionID == undefined) {
       res.write('<h1>Please login first.</h1>');
       res.end('<a href='+'/'+'>Login</a>');

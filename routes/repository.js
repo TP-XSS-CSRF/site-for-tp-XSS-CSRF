@@ -47,7 +47,6 @@ router.post('/user/add', function(req, res, next) {
 
     sess = req.session;
     sess.sessionID = token;
-
     res.redirect('/menu');
 });
 
