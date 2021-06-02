@@ -15,7 +15,14 @@ var repoRouter = require('./routes/repository');
 var app = express();
 
 app.use(cors())
-app.use(session({secret: 'ssshhhhh',saveUninitialized: true,resave: true}));
+app.use(session({
+  secret: 'ssshhhhh',
+  saveUninitialized: true,
+  resave: true,
+  cookie: {
+    sameSite: 'none',
+  }
+}));
 
 
 const dropTableArticle = "DROP TABLE IF EXISTS article;";
