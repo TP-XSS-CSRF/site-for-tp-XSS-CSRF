@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<title>Food Blog</title>
+<link rel="stylesheet" href="/stylesheets/styles.css">
+</head>
+
+<body>
+    <div style="display: flex;">
+        <div style="flex: 7 auto">
+            <h1>Liste des articles </h1>
+            <div class="container" id="data">
+            </div>
+        </div>
+        <div style="flex: 1 auto">
+            <form style="text-align: center; margin-top: 30px;" action="/article/add" method="POST">
+                <label for="title">Titre</label>
+                <input type="text" name="title" required style="width: 50%;">
+                <label for="desc">Description</label>
+                <textarea name="desc" rows="5" cols="33" style="width: 50%; height:auto" required></textarea>
+                <button type="submit">Creer</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    fetch('/articles/all')
+        .then(function (response) {
+            console.log(response)
+            return response.json();
+        })
+        .then(function (data) {
+            appendData(data);
+        })
+        .catch(function (err) {
+            console.log('error: ' + err);
+        });
+
+
+    function appendData(data) {
+        var mainContainer = document.getElementById("data");
+        sessionStorage.SessionName = "SESSIONAVOLER"
+        sessionStorage.setItem("SESSIONAVOLER", "dueaghddagdeayudgfhufiua");
+        for (var i = 0; i < data.length; i++) {
+            var div = document.createElement("div");
+            var h2 = document.createElement("h2");
+            var span = document.createElement("span");
+
+            h2.innerHTML = sanitize(data[i].title);
+            span.innerHTML = sanitize(data[i].description);
+
+            div.classList.add("article");
+
+            div.appendChild(h2);
+            div.appendChild(span);
+
+            mainContainer.appendChild(div);
+        }
+    }
+
+    function sanitize(str) {
+        var cleanStr = str.replaceAll("<img", "");
+        var cleanStr = cleanStr.replaceAll("</img>", "");
+        var cleanStr = cleanStr.replaceAll("<div", "");
+        var cleanStr = cleanStr.replaceAll("</div>", "");
+        console.log("san : " + cleanStr);
+        return cleanStr;
+    }
+
+</script>

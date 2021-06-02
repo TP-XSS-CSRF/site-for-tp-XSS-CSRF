@@ -15,7 +15,6 @@ body {
   display: grid;
   place-items: center;
   color: var(--clr-neon);
-  padding-right: 10rem;
 }
 
 .neon-button {

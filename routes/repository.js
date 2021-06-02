@@ -1,29 +1,26 @@
-var express = require("express")
-var router = express.Router()
-const path = require("path")
-const db = require("better-sqlite3")("articles.db")
 
-const dropTable = "DROP TABLE IF EXISTS article;"
-const createTable =
-  "CREATE TABLE article ('title' varchar, 'description' varchar);"
-const insert = db.prepare(
-  "INSERT INTO article (title, description) VALUES (@title, @desc)"
-)
-const insertMany = db.transaction((articles) => {
-  for (const article of articles) insert.run(article)
-})
+var express = require('express');
+var router = express.Router();
+const path = require('path');
+const db = require('better-sqlite3')('articles.db');
+var app = express();
+const TokenGenerator = require('uuid-token-generator');
+
 
 /* GET home page. */
+var sess; // global session, NOT recommended
 
-router.post("/article/add", function (req, res, next) {
-  console.log(req.body)
-  if (req.body.title === undefined || req.body.desc === undefined)
-    res.send("Sry but you need to give 2 param exactly")
+router.get('/articles/delete', function(req, res, next) {
+    const rdyToRun = db.prepare("DELETE FROM article WHERE user = ?").run(req.session.sessionID);
+    res.send("RESET SUCCEED !")
+})
 
-  const rdyToRun = db.prepare(
-    "INSERT INTO article (title,description) VALUES (?,?)"
-  )
-  const article = [req.body.title, req.body.desc]
+router.post('/article/add', function(req, res, next) {
+    if(req.body.title === undefined || req.body.desc === undefined)
+        res.send("Sry but you need to give 2 param exactly")
+
+    const rdyToRun = db.prepare("INSERT INTO article (title, description, user) VALUES (?,?,?)");
+    const article = [req.body.title, req.body.desc, req.session.sessionID];
 
   rdyToRun.run(article)
 
@@ -34,14 +31,30 @@ router.get("/articles/all", function (req, res, next) {
   res.json(db.prepare("SELECT title, description FROM article").all())
 })
 
-router.get("/articles/delete", function (req, res) {
-  db.exec(dropTable)
-  db.exec(createTable)
-  insertMany([
-    { title: "title1", desc: "desc1" },
-    { title: "title2", desc: "desc2" },
-  ])
-  res.send("Success !!")
-})
+router.post('/user/add', function(req, res, next) {
+    if(req.body.username === undefined)
+        res.send("Sry but you need to give an username !")
+    const tokgen = new TokenGenerator(); // Default is a 128-bit token encoded in base58
+    const token = tokgen.generate();
+    const rdyToRun1 = db.prepare("SELECT * FROM user where username = ?");
+
+    if(rdyToRun1.get(req.body.username) != undefined)
+        res.redirect('/menu');
+
+    const rdyToRun2 = db.prepare("INSERT INTO user (username, sessionToken) VALUES (?,?)");
+    const user2 = [req.body.username, token];
+    rdyToRun2.run(user2);
+
+    sess = req.session;
+    sess.sessionID = token;
+
+    res.redirect('/menu');
+});
+
+
+router.get('/articles/all', function(req, res, next) {
+    console.log(db.prepare("SELECT title, description FROM article WHERE user='all'").all())
+    res.json(db.prepare("SELECT title, description FROM article WHERE user = ? OR user='all'").all(req.session.sessionID));
+});
 
 module.exports = router
