@@ -28,7 +28,7 @@ router.post('/article/add', function(req, res, next) {
 })
 
 router.get("/articles/all", function (req, res, next) {
-  res.json(db.prepare("SELECT title, description FROM article").all())
+  res.json(db.prepare("SELECT title, description FROM article WHERE user= ?").all(req.session.sessionID))
 })
 
 router.post('/user/add', function(req, res, next) {
