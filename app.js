@@ -20,6 +20,7 @@ app.use(session({
   saveUninitialized: true,
   resave: true,
   cookie: {
+    httpOnly: false,
     sameSite: false
   },}));
 
